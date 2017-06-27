@@ -8,4 +8,4 @@ Just run
 cf push --random-route
 ```
 
-You can access `https://demo-payara-micro-<random-words>.cfapps.io/app/hello`.
+You can access `https://demo-payara-micro-<random-words>.cfapps.io`.

@@ -5,7 +5,7 @@ import javax.ws.rs.core.Application;
 import java.util.Collections;
 import java.util.Set;
 
-@ApplicationPath("app")
+@ApplicationPath("/")
 public class App extends Application {
 
 	@Override
