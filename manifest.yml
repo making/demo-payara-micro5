@@ -1,6 +1,6 @@
 applications:
 - name: demo-payara-micro5
-  buildpack: java_buildpack
+  buildpack: https://github.com/cloudfoundry/java-buildpack.git#v4.12
   memory: 256M
   command: |
     CALCULATED_MEMORY=`.java-buildpack/open_jdk_jre/bin/java-buildpack-memory-calculator-* -totMemory=$MEMORY_LIMIT -stackThreads=$THREAD_SIZE -loadedClasses=$LOAD_CLASSES -poolType=metaspace -vmOptions="$_JAVA_OPTIONS"` && \
