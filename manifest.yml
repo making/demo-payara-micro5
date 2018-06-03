@@ -2,9 +2,11 @@ applications:
 - name: demo-payara-micro5
   buildpack: java_buildpack
   memory: 256M
-  command: '.java-buildpack/open_jdk_jre/bin/java -jar app.jar'
+  command: 'CALCULATED_MEMORY=`.java-buildpack/open_jdk_jre/bin/java-buildpack-memory-calculator-* -totMemory=$MEMORY_LIMIT -stackThreads=$THREAD_SIZE -loadedClasses=$LOAD_CLASSES -poolType=metaspace -vmOptions="$_JAVA_OPTIONS"` && echo JVM Memory Configuration: $CALCULATED_MEMORY && MALLOC_ARENA_MAX=2 .java-buildpack/open_jdk_jre/bin/java $CALCULATED_MEMORY -jar app.jar'
   path: target/ROOT.jar
   health-check-type: http
   health-check-http-endpoint: /health
   env:
-    _JAVA_OPTIONS: '-Xmx100M -Xss1M -XX:MaxMetaspaceSize=60M -XX:ReservedCodeCacheSize=16M -XX:CompressedClassSpaceSize=20M -XX:MaxDirectMemorySize=32M -XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap -XX:MaxRAMFraction=1'
+    THREAD_SIZE: 70
+    LOAD_CLASSES: 23500
+    _JAVA_OPTIONS: '-XX:MaxMetaspaceSize=60M -XX:ReservedCodeCacheSize=16M -XX:CompressedClassSpaceSize=20M -XX:MaxDirectMemorySize=10M -XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap -XX:MaxRAMFraction=1'
