@@ -1,5 +1,10 @@
 applications:
-- name: demo-payara-micro
+- name: demo-payara-micro5
   buildpack: java_buildpack
-  command: 'CALCULATED_MEMORY=$($PWD/.java-buildpack/open_jdk_jre/bin/java-buildpack-memory-calculator-2.0.2_RELEASE -memorySizes=metaspace:64m..,stack:228k.. -memoryWeights=heap:65,metaspace:10,native:15,stack:10 -memoryInitials=heap:100%,metaspace:100% -stackThreads=300 -totMemory=$MEMORY_LIMIT) && JAVA_OPTS="-Djava.io.tmpdir=$TMPDIR -XX:OnOutOfMemoryError=$PWD/.java-buildpack/open_jdk_jre/bin/killjava.sh $CALCULATED_MEMORY" && .java-buildpack/open_jdk_jre/bin/java $JAVA_OPTS -jar app.jar'
+  memory: 256M
+  command: '.java-buildpack/open_jdk_jre/bin/java -jar app.jar'
   path: target/ROOT.jar
+  health-check-type: http
+  health-check-http-endpoint: /health
+  env:
+    _JAVA_OPTIONS: '-Xmx100M -Xss1M -XX:MaxMetaspaceSize=60M -XX:ReservedCodeCacheSize=16M -XX:CompressedClassSpaceSize=20M -XX:MaxDirectMemorySize=32M -XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap -XX:MaxRAMFraction=1'
