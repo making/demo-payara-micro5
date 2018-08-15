@@ -14,7 +14,7 @@
         <maven.compiler.target>1.8</maven.compiler.target>
         <failOnMissingWebXml>false</failOnMissingWebXml>
         <microprofile.version>1.2</microprofile.version>
-        <payara-micro.version>5.181</payara-micro.version>
+        <payara-micro.version>5.182</payara-micro.version>
     </properties>
 
     <dependencies>
