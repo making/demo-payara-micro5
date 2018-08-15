@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<hazelcast xsi:schemaLocation="http://www.hazelcast.com/schema/config hazelcast-config-3.8.xsd"
+           xmlns="http://www.hazelcast.com/schema/config"
+           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+    <properties>
+        <property name="hazelcast.discovery.enabled">true</property>
+    </properties>
+    <network>
+        <join>
+            <multicast enabled="false"/>
+            <tcp-ip enabled="false"/>
+            <discovery-strategies>
+                <discovery-strategy enabled="true" class="am.ik.hazelcast.dns.DnsServiceDiscoveryStrategy">
+                    <properties>
+                        <property name="hostname">demo-payara-micro5.apps.internal</property>
+                        <property name="port">5701</property>
+                    </properties>
+                </discovery-strategy>
+            </discovery-strategies>
+        </join>
+    </network>
+</hazelcast>

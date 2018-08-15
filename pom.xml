@@ -15,6 +15,7 @@
         <failOnMissingWebXml>false</failOnMissingWebXml>
         <microprofile.version>1.3</microprofile.version>
         <payara-micro.version>5.182</payara-micro.version>
+        <hazelcast-dns-service-discovery.version>1.0.0</hazelcast-dns-service-discovery.version>
     </properties>
 
     <dependencies>
@@ -25,7 +26,12 @@
             <type>pom</type>
             <scope>provided</scope>
         </dependency>
-
+        <dependency>
+            <groupId>javax.cache</groupId>
+            <artifactId>cache-api</artifactId>
+            <version>1.0.0</version>
+            <scope>provided</scope>
+        </dependency>
         <dependency>
             <groupId>fish.payara.extras</groupId>
             <artifactId>payara-micro</artifactId>
@@ -51,12 +57,19 @@
                                       jar="${settings.localRepository}/fish/payara/extras/payara-micro/${payara-micro.version}/payara-micro-${payara-micro.version}.jar">
                                     <arg value="--deploy"/>
                                     <arg value="${basedir}/target/${build.finalName}.war"/>
+                                    <arg value="--hzConfigFile"/>
+                                    <arg value="${basedir}/hzconfig.xml"/>
                                     <arg value="--outputUberJar"/>
                                     <arg value="${basedir}/target/${build.finalName}.jar"/>
                                 </java>
                                 <echo message="Add .profile into uber jar"/>
+                                <echo message="Add Discovery SPI into uber jar"/>
+                                <copy preservelastmodified="true"
+                                      file="${settings.localRepository}/am/ik/hazelcast/hazelcast-dns-service-discovery/${hazelcast-dns-service-discovery.version}/hazelcast-dns-service-discovery-${hazelcast-dns-service-discovery.version}.jar"
+                                      tofile="${basedir}/target/MICRO-INF/lib/hazelcast-dns-service-discovery-${hazelcast-dns-service-discovery.version}.jar"/>
                                 <jar update="true" destfile="${basedir}/target/${build.finalName}.jar">
                                     <fileset dir="${basedir}" includes=".profile"/>
+                                    <fileset dir="${basedir}/target" includes="MICRO-INF/**/*.jar"/>
                                 </jar>
                             </target>
                         </configuration>
@@ -65,6 +78,13 @@
                         </goals>
                     </execution>
                 </executions>
+                <dependencies>
+                    <dependency>
+                        <groupId>am.ik.hazelcast</groupId>
+                        <artifactId>hazelcast-dns-service-discovery</artifactId>
+                        <version>${hazelcast-dns-service-discovery.version}</version>
+                    </dependency>
+                </dependencies>
             </plugin>
         </plugins>
     </build>
